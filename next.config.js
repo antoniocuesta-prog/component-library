@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Optimizaciones
   swcMinify: true,
-  // Configuración de TypeScript
+  // Configuración de TypeScript - temporalmente ignorar errores para ver si es el problema
   typescript: {
     ignoreBuildErrors: false,
   },
@@ -11,9 +10,8 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
-  // Configuración de webpack para path aliases
+  // Configuración de webpack
   webpack: (config, { isServer }) => {
-    // Asegurar que los path aliases funcionen correctamente
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -22,8 +20,6 @@ const nextConfig = {
     }
     return config
   },
-  // Configuración de output
-  output: undefined, // Dejar que Vercel maneje esto automáticamente
 }
 
 module.exports = nextConfig
