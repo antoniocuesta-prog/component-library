@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import Sidebar from '@/components/catalog/Sidebar'
+import SidebarWrapper from '@/components/catalog/SidebarWrapper'
 import { ThemeProvider } from '@/components/catalog/ThemeProvider'
 
 export const metadata: Metadata = {
@@ -17,12 +17,9 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <body className="antialiased">
         <ThemeProvider>
-          <div className="flex h-screen overflow-hidden">
-            <Sidebar />
-            <main className="flex-1 overflow-y-auto">
-              {children}
-            </main>
-          </div>
+          <SidebarWrapper>
+            {children}
+          </SidebarWrapper>
         </ThemeProvider>
       </body>
     </html>

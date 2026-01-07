@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Search, ChevronRight, ChevronDown } from 'lucide-react'
+import { Search, ChevronRight, ChevronDown, X } from 'lucide-react'
 import { categories, searchComponents, getAllComponents } from '@/lib/component-registry'
 import { cn } from '@/lib/utils'
 import ThemeToggle from './ThemeToggle'
@@ -11,7 +11,12 @@ import ThemeToggle from './ThemeToggle'
 // Asegurar que los componentes se inicialicen
 import '@/lib/init-components'
 
-export default function Sidebar() {
+interface SidebarProps {
+  isOpen?: boolean
+  onClose?: () => void
+}
+
+export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
   const pathname = usePathname()
   const [searchQuery, setSearchQuery] = useState('')
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['essential']))
@@ -79,13 +84,49 @@ export default function Sidebar() {
     })
   }
 
+  // Cerrar sidebar cuando se hace clic en un link en móvil
+  const handleLinkClick = () => {
+    if (onClose && window.innerWidth < 768) {
+      onClose()
+    }
+  }
+
   return (
-    <aside className="w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col h-screen">
-      <div className="p-4 border-b border-gray-200 dark:border-gray-800">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold">Componentes</h2>
-          <ThemeToggle />
-        </div>
+    <>
+      {/* Overlay para móvil */}
+      {onClose && (
+        <div
+          className={cn(
+            "fixed inset-0 bg-black/50 z-40 transition-opacity md:hidden",
+            isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          )}
+          onClick={onClose}
+          aria-hidden="true"
+        />
+      )}
+      
+      <aside
+        className={cn(
+          "fixed md:static inset-y-0 left-0 z-50 w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col h-screen transition-transform duration-300 ease-in-out",
+          isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        )}
+      >
+        <div className="p-4 border-b border-gray-200 dark:border-gray-800">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold">Componentes</h2>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              {onClose && (
+                <button
+                  onClick={onClose}
+                  className="md:hidden p-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded"
+                  aria-label="Cerrar menú"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              )}
+            </div>
+          </div>
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           <input
@@ -126,6 +167,7 @@ export default function Sidebar() {
                       <Link
                         key={component.id}
                         href={`/components/${component.category}/${component.id}`}
+                        onClick={handleLinkClick}
                         className={cn(
                           "block px-3 py-2 text-sm rounded-md transition-colors",
                           isActive
@@ -144,6 +186,7 @@ export default function Sidebar() {
         ))}
       </nav>
     </aside>
+    </>
   )
 }
 

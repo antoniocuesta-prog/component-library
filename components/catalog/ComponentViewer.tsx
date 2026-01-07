@@ -263,18 +263,19 @@ export default function ComponentViewer({ component, componentId }: ComponentVie
   }
 
   return (
-    <div className="container mx-auto px-6 py-8">
+    <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8">
       {/* Header */}
-      <div className="mb-8">
+      <div className="mb-6 sm:mb-8">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-sm font-medium text-orange-500 dark:text-orange-400 hover:text-orange-600 dark:hover:text-orange-300 mb-4 transition-colors"
+          className="inline-flex items-center gap-2 text-xs sm:text-sm font-medium text-orange-500 dark:text-orange-400 hover:text-orange-600 dark:hover:text-orange-300 mb-3 sm:mb-4 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Volver al listado de componentes
+          <span className="hidden sm:inline">Volver al listado de componentes</span>
+          <span className="sm:hidden">Volver</span>
         </Link>
-        <h1 className="text-4xl font-bold mb-2">{component.name}</h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">{component.name}</h1>
+        <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 mb-4">
           {component.description}
         </p>
         <div className="flex flex-wrap gap-2">
@@ -290,11 +291,11 @@ export default function ComponentViewer({ component, componentId }: ComponentVie
       </div>
 
       {/* View Mode Toggle */}
-      <div className="flex gap-2 mb-6 border-b border-gray-200 dark:border-gray-800">
+      <div className="flex gap-1 sm:gap-2 mb-4 sm:mb-6 border-b border-gray-200 dark:border-gray-800 overflow-x-auto">
         <button
           onClick={() => setViewMode('preview')}
           className={cn(
-            "px-4 py-2 flex items-center gap-2 border-b-2 transition-smooth focus-visible-ring",
+            "px-2 sm:px-4 py-2 flex items-center gap-1 sm:gap-2 border-b-2 transition-smooth focus-visible-ring whitespace-nowrap text-xs sm:text-sm",
             viewMode === 'preview'
               ? "border-blue-500 text-blue-600 dark:text-blue-400"
               : "border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
@@ -302,13 +303,13 @@ export default function ComponentViewer({ component, componentId }: ComponentVie
           aria-label="Vista previa"
           aria-pressed={viewMode === 'preview'}
         >
-          <Eye className="w-4 h-4" />
-          Preview
+          <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
+          <span className="hidden sm:inline">Preview</span>
         </button>
         <button
           onClick={() => setViewMode('code')}
           className={cn(
-            "px-4 py-2 flex items-center gap-2 border-b-2 transition-smooth focus-visible-ring",
+            "px-2 sm:px-4 py-2 flex items-center gap-1 sm:gap-2 border-b-2 transition-smooth focus-visible-ring whitespace-nowrap text-xs sm:text-sm",
             viewMode === 'code'
               ? "border-blue-500 text-blue-600 dark:text-blue-400"
               : "border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
@@ -316,13 +317,13 @@ export default function ComponentViewer({ component, componentId }: ComponentVie
           aria-label="Vista de código"
           aria-pressed={viewMode === 'code'}
         >
-          <Code className="w-4 h-4" />
-          Código
+          <Code className="w-3 h-3 sm:w-4 sm:h-4" />
+          <span className="hidden sm:inline">Código</span>
         </button>
         <button
           onClick={() => setViewMode('both')}
           className={cn(
-            "px-4 py-2 flex items-center gap-2 border-b-2 transition-smooth focus-visible-ring",
+            "px-2 sm:px-4 py-2 flex items-center gap-1 sm:gap-2 border-b-2 transition-smooth focus-visible-ring whitespace-nowrap text-xs sm:text-sm",
             viewMode === 'both'
               ? "border-blue-500 text-blue-600 dark:text-blue-400"
               : "border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
@@ -330,16 +331,16 @@ export default function ComponentViewer({ component, componentId }: ComponentVie
           aria-label="Vista combinada"
           aria-pressed={viewMode === 'both'}
         >
-          <Settings className="w-4 h-4" />
-          Ambos
+          <Settings className="w-3 h-3 sm:w-4 sm:h-4" />
+          <span className="hidden sm:inline">Ambos</span>
         </button>
       </div>
 
       {/* Variants */}
       {safeVariants.length > 1 && (
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold mb-3">Variantes</h3>
-          <div className="flex flex-wrap gap-2">
+        <div className="mb-4 sm:mb-6">
+          <h3 className="text-base sm:text-lg font-semibold mb-2 sm:mb-3">Variantes</h3>
+          <div className="flex flex-wrap gap-2 overflow-x-auto pb-2">
             {safeVariants.map((variant, index) => (
               <button
                 key={index}
@@ -348,7 +349,7 @@ export default function ComponentViewer({ component, componentId }: ComponentVie
                   setProps(variant.props || {})
                 }}
                 className={cn(
-                  "px-4 py-2 rounded-md border transition-colors",
+                  "px-3 sm:px-4 py-1.5 sm:py-2 rounded-md border transition-colors text-xs sm:text-sm whitespace-nowrap",
                   safeSelectedVariant === index
                     ? "bg-blue-500 text-white border-blue-500"
                     : "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
@@ -368,13 +369,13 @@ export default function ComponentViewer({ component, componentId }: ComponentVie
 
       {/* Content */}
       <div className={cn(
-        "grid gap-6",
+        "grid gap-4 sm:gap-6",
         viewMode === 'both' ? "grid-cols-1 lg:grid-cols-2" : "grid-cols-1"
       )}>
         {(viewMode === 'preview' || viewMode === 'both') && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 animate-fade-in">
-            <h3 className="text-lg font-semibold mb-4">Preview</h3>
-            <div className="min-h-[200px] flex items-center justify-center">
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 sm:p-6 animate-fade-in">
+            <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Preview</h3>
+            <div className="min-h-[150px] sm:min-h-[200px] flex items-center justify-center overflow-x-auto">
               {renderPreview()}
             </div>
           </div>
