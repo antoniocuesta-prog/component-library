@@ -62,7 +62,6 @@ registerComponent(paginationStory)
 registerComponent(accordionStory)
 registerComponent(tableStory)
 registerComponent(typographyStory)
-// Nuevos componentes
 registerComponent(skeletonStory)
 registerComponent(toastStory)
 registerComponent(sliderStory)
